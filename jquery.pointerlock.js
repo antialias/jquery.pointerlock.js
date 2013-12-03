@@ -4,6 +4,8 @@
 if (!document.addEventListener) {
 	document.addEventListener = function () {};
 }
+(function () {
+var extendjQuery = function ($) {
 $.fn.pointerLock = function (_params) {
 	var params = $.extend({
 		requireAlt: false,
@@ -95,6 +97,19 @@ $.fn.pointerLock = function (_params) {
 		});
 	});
 };
+};
+if (window.jQuery) {
+	extendjQuery(jQuery);
+} else if (window.require) {
+	console.error("jQuery not defined, attempting to load it through AMD require");
+	require(["jquery"], function (jQuery) {
+		extendjQuery(jQuery);
+		console.log("extended jQuery with jquery.pointerlock through AMD");
+	});
+} else {
+	console.error("jQuery not defined; jquery.pointerlock has nothing to extend");
+}
+}());
 
 document.exitPointerLock = document.exitPointerLock  ||
 	document.mozExitPointerLock ||
