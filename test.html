@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+	<head>
+		<style>
+		#test-element {
+			position: absolute;
+			display: block;
+			height: 300px;
+			width: 300px;
+			border: 1px solid red;
+		}
+		#last-delta {
+			display: block;
+			background-color: blue;
+			position: relative;
+			margin-left: 50%;
+			margin-top: 50%;
+			width: 20px;
+			height: 20px;
+		}
+		</style>
+	</head>
+<body>
+	click and drag inside the red box below.
+	<div id="test-element">
+		<div id="last-delta"></div>
+	</div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type='application/javascript' src='jquery.pointerlock.js'></script>
+	<script type='application/javascript'>
+	var $lastDelta = $("#last-delta").hide();
+	var lastHideTimeout;
+	$("#test-element").pointerLock({
+		movement: function () {
+			$lastDelta.show();
+			$lastDelta.css({left: arguments[0], top: arguments[1]});
+			clearTimeout(lastHideTimeout);
+			lastHideTimeout = setTimeout(function () {
+				$lastDelta.hide();
+			},100);
+		}
+	});
+	</script>
+</body>
+</html>
